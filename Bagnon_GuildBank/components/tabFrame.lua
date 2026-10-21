@@ -16,6 +16,7 @@ function TabFrame:New(frameID, parent)
 
 	f:SetScript('OnShow', f.OnShow)
 	f:SetScript('OnHide', f.OnHide)
+	f:SetScript('OnEvent', f.Layout)
 
 	f:SetFrameID(frameID)
 	f:CreateBagSlots()
@@ -79,6 +80,7 @@ function TabFrame:UpdateEvents()
 
 	self:RegisterMessage('BAG_FRAME_SHOW')
 	self:RegisterMessage('BAG_FRAME_HIDE')
+	self:RegisterEvent('GUILDBANK_UPDATE_TABS')
 end
 
 function TabFrame:Layout()
@@ -88,23 +90,32 @@ function TabFrame:Layout()
 	local height = 0
 	local spacing = self:GetSpacing()
 	local padding = self:GetPadding()
+	local numTabs = math.min(GetNumGuildBankTabs(), #self.bags)
 
-	width = self.bags[1]:GetWidth() * #self.bags + spacing * (#self.bags - 1) + padding * 2
+	width = math.max(1, self.bags[1]:GetWidth() * numTabs + spacing * math.max(0, numTabs - 1) + padding * 2)
 	height = self.bags[1]:GetHeight() + padding * 2
 
 	local prev
 	for i, bag in self:GetBags() do
-		if prev then
-			bag:SetPoint('LEFT', prev, 'RIGHT', spacing, 0)
+		bag:ClearAllPoints()
+		if i <= numTabs then
+			if prev then
+				bag:SetPoint('LEFT', prev, 'RIGHT', spacing, 0)
+			else
+				bag:SetPoint('LEFT', padding, 0)
+			end
+			bag:Show()
+			prev = bag
 		else
-			bag:SetPoint('LEFT', padding, 0)
+			bag:Hide()
 		end
-		bag:Show()
-		prev = bag
 	end
 
-	self:SetWidth(width)
-	self:SetHeight(height)
+	if self:GetWidth() ~= width or self:GetHeight() ~= height then
+		self:SetWidth(width)
+		self:SetHeight(height)
+		self:SendMessage('BAG_FRAME_UPDATE_LAYOUT', self:GetFrameID())
+	end
 end
 
 

@@ -157,7 +157,7 @@ function MoneyFrame:UpdateTooltip()
 end
 
 function MoneyFrame:DepositMoney(amount)
-	DepositGuildBankMoney(cMoney)
+	DepositGuildBankMoney(amount)
 	DropCursorMoney()
 end
 

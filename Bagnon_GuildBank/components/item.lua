@@ -189,6 +189,9 @@ end
 
 function ItemSlot:OnHide()
 	self:HideStackSplitFrame()
+	if GameTooltip:IsOwned(self) then
+		GameTooltip:Hide()
+	end
 	self:UnregisterAllEvents()
 end
 
@@ -387,6 +390,9 @@ function ItemSlot:GetPlayer()
 end
 
 function ItemSlot:SetSlot(tab, slot)
+	if self.tab ~= tab then
+		self:HideStackSplitFrame()
+	end
 	self.tab = tab
 	self:SetID(slot)
 	self:Update()

@@ -111,6 +111,7 @@ function GuildTab:GUILDBANK_UPDATE_TABS()
 end
 
 function GuildTab:GUILD_BANK_TAB_CHANGE(msg, tabID)
+	self:Update()
 	self:UpdateChecked()
 end
 
@@ -129,9 +130,7 @@ function GuildTab:OnHide()
 end
 
 function GuildTab:OnClick()
-	SetCurrentGuildBankTab(self:GetID())
-	QueryGuildBankTab(self:GetID())
-	self:SendMessage('GUILD_BANK_TAB_CHANGE', self:GetID())
+	Bagnon:GetModule('GuildBank'):SelectTab(self:GetID())
 end
 
 function GuildTab:OnDrag()
@@ -164,15 +163,23 @@ function GuildTab:UpdateEverything()
 end
 
 function GuildTab:Update()
+	if self:GetID() > GetNumGuildBankTabs() then
+		self:Disable()
+		self:SetCount(0)
+		self:SetChecked(false)
+		return
+	end
+
 	local name, icon, isViewable, canDeposit, numWithdrawals, remainingWithdrawals = GetGuildBankTabInfo(self:GetID())
 	SetItemButtonTexture(self, icon or [[Interface\PaperDoll\UI-PaperDoll-Slot-Bag]])
 	
 	self:UpdateCount(remainingWithdrawals)
 	
-	--color red if the bag can be purchased
 	if not isViewable then
+		self:Disable()
 		SetItemButtonTextureVertexColor(self, 1, 0.1, 0.1)
 	else
+		self:Enable()
 		SetItemButtonTextureVertexColor(self, 1, 1, 1)
 	end
 end
@@ -200,6 +207,7 @@ end
 function GuildTab:UpdateCount(count)
 	--hack, since the amount of withdrawls seems to only be correct when we're looking at the current tab
 	if not self:IsCurrentTab()  then 
+		self:SetCount(0)
 		return 
 	end
 	
@@ -212,7 +220,7 @@ function GuildTab:UpdateCount(count)
 end
 
 function GuildTab:IsCurrentTab()
-	return self:GetID() == GetCurrentGuildBankTab()
+	return self:GetID() == Bagnon:GetModule('GuildBank'):GetCurrentTab()
 end
 
 

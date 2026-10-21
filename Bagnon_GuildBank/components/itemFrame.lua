@@ -55,6 +55,10 @@ function ItemFrame:GUILDBANKBAGSLOTS_CHANGED(event, ...)
 	self:ReloadAllItemSlots()
 end
 
+function ItemFrame:GUILD_BANK_TAB_CHANGE()
+	self:ReloadAllItemSlots()
+end
+
 function ItemFrame:ITEM_FRAME_SPACING_UPDATE(msg, frameID, spacing)
 	if self:GetFrameID() == frameID then
 		self:RequestLayout()
@@ -109,6 +113,7 @@ function ItemFrame:UpdateEvents()
 
 	if self:IsVisible() then
 		self:RegisterEvent('GUILDBANKBAGSLOTS_CHANGED')
+		self:RegisterMessage('GUILD_BANK_TAB_CHANGE')
 		
 		self:RegisterMessage('ITEM_FRAME_SPACING_UPDATE')
 		self:RegisterMessage('ITEM_FRAME_COLUMNS_UPDATE')
@@ -158,7 +163,14 @@ function ItemFrame:ReloadAllItemSlots()
 	local changed = false
 
 	local currentTab = self:GetCurrentTab()
-	for slot = 1, self:GetCurrentTabSize() do
+	local numSlots = self:GetCurrentTabSize()
+	for slot = #self.itemSlots, numSlots + 1, -1 do
+		self.itemSlots[slot]:Free()
+		self.itemSlots[slot] = nil
+		changed = true
+	end
+
+	for slot = 1, numSlots do
 		local itemSlot = self:GetItemSlot(slot)
 		if not itemSlot then
 			self:AddItemSlot(slot)
@@ -182,8 +194,14 @@ function ItemFrame:Layout()
 	self.needsLayout = nil
 
 	local numItems = self:GetCurrentTabSize()
+	if numItems == 0 then
+		self:SetWidth(1)
+		self:SetHeight(1)
+		return
+	end
+
 	local numColumns = math.min(self:NumColumns(), numItems)
-	local numRows = math.floor(numItems / numColumns + 0.5)
+	local numRows = math.ceil(numItems / numColumns)
 	local spacing = self:GetSpacing()
 	local effItemSize = self.ITEM_SIZE + spacing
 
@@ -247,9 +265,9 @@ end
 
 --guild bank info
 function ItemFrame:GetCurrentTab()
-	return GetCurrentGuildBankTab() or 0
+	return Bagnon:GetModule('GuildBank'):GetCurrentTab()
 end
 
 function ItemFrame:GetCurrentTabSize()
-	return 98
+	return self:GetCurrentTab() and 98 or 0
 end
