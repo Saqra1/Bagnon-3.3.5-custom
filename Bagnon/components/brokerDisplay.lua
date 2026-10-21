@@ -117,9 +117,10 @@ end
 
 function BrokerDisplay:DATABROKER_OBJECT_UPDATE(msg, frameID, objectName)
 	if self:GetFrameID() == frameID then
+		local wasEntered = self.tooltipObject ~= nil
 		self:UpdateDisplay()
 
-		if GameTooltip:IsOwned(self) then
+		if wasEntered then
 			self:OnEnter()
 		end
 	end
@@ -129,8 +130,10 @@ end
 --[[ Frame Events ]]--
 
 function BrokerDisplay:OnEnter()
+	self:OnLeave()
 	local dbo = self:GetObject()
 	if not dbo then return end
+	self.tooltipObject = dbo
 
 	if dbo.OnEnter then
 		dbo.OnEnter(self)
@@ -150,10 +153,10 @@ function BrokerDisplay:OnEnter()
 end
 
 function BrokerDisplay:OnLeave()
-	local dbo = self:GetObject()
-	if not dbo then return end
+	local dbo = self.tooltipObject
+	self.tooltipObject = nil
 
-	if dbo.OnLeave then
+	if dbo and dbo.OnLeave then
 		dbo.OnLeave(self)
 	else
 		if GameTooltip:IsOwned(self) then
@@ -174,6 +177,7 @@ function BrokerDisplay:OnShow()
 end
 
 function BrokerDisplay:OnHide()
+	self:OnLeave()
 	self:UpdateEvents()
 end
 

@@ -1,10 +1,9 @@
 ## Title: Bagnon Currencies
-## Notes: Makes currencies that is checked in the currency-tab visible in the Bagnon-panels.
+## Notes: Shows watched currencies in Bagnon for the original WoW 3.3.5a client.
 ## Author: Spillmaker@Github
-## Interface: 30400
-## Version: 2.2.0
-## OptionalDeps: Bagnon
+## Interface: 30300
+## Version: 2.2.0-3.3.5a
+## Dependencies: Bagnon
 
 libs\LibDataBroker-1.1.lua
 Bagnon_Currencies_Wrath.lua
-Bagnon_Currencies_Mainline.lua
