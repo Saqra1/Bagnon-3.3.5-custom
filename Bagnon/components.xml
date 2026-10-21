@@ -12,7 +12,6 @@
 	<Script file="components\playerSelector.lua"/>
 	<Script file="components\savedSettings.lua"/>
 	<Script file="components\searchFrame.lua"/>
-	<Script file="components\sortButton.lua"/>
 	<Script file="components\searchToggle.lua"/>
 	<Script file="components\settings.lua"/>
 	<Script file="components\titleFrame.lua"/>

@@ -55,7 +55,7 @@ end
 
 function BrokerDisplay:AddText()
 	local text = self:CreateFontString()
-	text:SetFontObject('GameFontNormalRight')
+	text:SetFontObject('NumberFontNormalRight')
 	text:SetJustifyH('LEFT')
 
 	return text

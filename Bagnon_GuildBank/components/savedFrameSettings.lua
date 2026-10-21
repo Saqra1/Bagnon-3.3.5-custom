@@ -23,11 +23,10 @@ function SavedFrameSettings:GetDefaultGuildBankSettings()
 		itemFrameSpacing = 2,
 
 		--optional components
-		hasMoneyFrame = true,
+		hasMoneyFrame = false,
 		hasBagFrame = true,
 		hasDBOFrame = true,
 		hasSearchToggle = true,
-		hasSortButton = true,
 		hasOptionsToggle = true,
 
 		--dbo display object

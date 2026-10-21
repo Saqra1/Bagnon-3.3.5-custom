@@ -1,0 +1,10 @@
+## Title: Bagnon Currencies
+## Notes: Makes currencies that is checked in the currency-tab visible in the Bagnon-panels.
+## Author: Spillmaker@Github
+## Interface: 30400
+## Version: 2.2.0
+## OptionalDeps: Bagnon
+
+libs\LibDataBroker-1.1.lua
+Bagnon_Currencies_Wrath.lua
+Bagnon_Currencies_Mainline.lua

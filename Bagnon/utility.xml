@@ -7,5 +7,4 @@
 	<Script file="utility\bagSlotInfo.lua"/>
 	<Script file="utility\itemSlotInfo.lua"/>
 	<Script file="utility\playerInfo.lua"/>
-	<Script file="utility\sorting.lua"/>
 </Ui>

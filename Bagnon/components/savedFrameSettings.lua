@@ -291,14 +291,6 @@ function SavedFrameSettings:HasSearchToggle()
 	return self:GetDB().hasSearchToggle
 end
 
-function SavedFrameSettings:SetHasSortButton(enable)
-	self:GetDB().hasSortButton = enable or false
-end
-
-function SavedFrameSettings:HasSortButton()
-	return self:GetDB().hasSortButton
-end
-
 function SavedFrameSettings:SetHasOptionsToggle(enable)
 	self:GetDB().hasOptionsToggle = enable or false
 end
@@ -443,7 +435,6 @@ function SavedFrameSettings:GetDefaultInventorySettings()
 		hasSearchToggle = true,
 		hasOptionsToggle = true,
 		hasKeyringToggle = true,
-		hasSortButton = true,
 
 		--dbo display object
 		dataBrokerObject = 'BagnonLauncher',
@@ -494,7 +485,6 @@ function SavedFrameSettings:GetDefaultBankSettings()
 		hasSearchToggle = true,
 		hasOptionsToggle = true,
 		hasKeyringToggle = false,
-		hasSortButton = true,
 
 		--dbo display object
 		dataBrokerObject = 'BagnonLauncher',
@@ -537,7 +527,6 @@ function SavedFrameSettings:GetDefaultKeyRingSettings()
 		hasSearchToggle = false,
 		hasOptionsToggle = true,
 		hasKeyringToggle = false,
-		hasSortButton = false,
 
 		--dbo display object
 		dataBrokerObject = 'BagnonLauncher',

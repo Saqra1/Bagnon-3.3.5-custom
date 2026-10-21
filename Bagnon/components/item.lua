@@ -377,7 +377,7 @@ if hasBlizzQuestHighlight() then
 				return
 			end
 		end
-		
+
 		if self:HighlightingItemsByQuality() then
 			if self:GetItem() and quality and quality > 1 then
 				local r, g, b = GetItemQualityColor(quality)
